@@ -817,7 +817,7 @@
             </div>
             <div class="document-title">بطاقة الطالب الجامعية</div>
             <div class="document-subtitle">صالحة حتى: يونيو 2025</div>
-            <button class="document-btn" data-code="2004">
+            <button class="document-btn" data-code="2004" data-doc="بطاقة الطالب الجامعية">
                 <i class="fas fa-eye"></i> عرض البطاقة
             </button>
         </div>
@@ -830,7 +830,7 @@
             </div>
             <div class="document-title">شهادة التسجيل</div>
             <div class="document-subtitle">العام الأكاديمي: 2023-2024</div>
-            <button class="document-btn" data-code="2005">
+            <button class="document-btn" data-code="2005" data-doc="شهادة التسجيل">
                 <i class="fas fa-eye"></i> عرض الشهادة
             </button>
         </div>
@@ -843,18 +843,22 @@
             </div>
             <div class="document-title">كشوف النقاط</div>
             <div class="document-subtitle">جميع الفصول الدراسية</div>
-            <button class="document-btn" data-code="2006">
+            <button class="document-btn" data-code="2006" data-doc="كشوف النقاط">
                 <i class="fas fa-eye"></i> عرض الكشوف
             </button>
         </div>
     </div>
 </div>
 
-<!-- Modal لعرض الكود -->
+<!-- Modal لادخال الكود -->
 <div id="codeModal" class="modal">
     <div class="modal-content">
         <span class="close-btn">&times;</span>
-        <pre><code class="language-js" id="documentCode">// هنا رح يظهر الكود</code></pre>
+        <h3>أدخل الكود السري</h3>
+        <input type="password" id="secretInput" placeholder="اكتب الكود هنا" />
+        <button id="submitCode">تأكيد</button>
+        <p id="errorMsg" style="color:red;display:none;">❌ الكود غير صحيح</p>
+        <div id="docContent" style="display:none; margin-top:20px; padding:10px; background:#fff; color:#000; border-radius:8px;"></div>
     </div>
 </div>
 
@@ -868,18 +872,33 @@
   background: rgba(0,0,0,0.6);
   padding: 40px;
 }
-
 .modal-content {
-  background: #1e1e1e;
-  color: #fff;
+  background: #f1f1f1;
+  color: #222;
   padding: 20px;
   border-radius: 12px;
-  max-width: 800px;
+  max-width: 400px;
   margin: auto;
-  overflow-x: auto;
-  font-family: 'Fira Code', monospace;
+  text-align: center;
 }
-
+.modal-content input {
+  padding: 10px;
+  width: 80%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+.modal-content button {
+  padding: 10px 20px;
+  background: #ffc107;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-content button:hover {
+  background: #e0a800;
+}
 .close-btn {
   float: left;
   font-size: 24px;
@@ -888,25 +907,43 @@
 }
 </style>
 
-<!-- Prism.js -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-
 <!-- JavaScript -->
 <script>
   const modal = document.getElementById("codeModal");
-  const codeBlock = document.getElementById("documentCode");
   const closeBtn = document.querySelector(".close-btn");
+  const submitBtn = document.getElementById("submitCode");
+  const input = document.getElementById("secretInput");
+  const errorMsg = document.getElementById("errorMsg");
+  const docContent = document.getElementById("docContent");
 
+  let currentCode = "";
+  let currentDoc = "";
+
+  // فتح المودال عند الضغط على أي زر
   document.querySelectorAll(".document-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      let code = btn.getAttribute("data-code") || "0000";
-      codeBlock.textContent = `// الكود الخاص بالمستند\nCODE: ${code}`;
-      Prism.highlightElement(codeBlock);
+      currentCode = btn.getAttribute("data-code");
+      currentDoc = btn.getAttribute("data-doc");
+      input.value = "";
+      errorMsg.style.display = "none";
+      docContent.style.display = "none";
       modal.style.display = "block";
     });
   });
 
+  // التحقق من الكود
+  submitBtn.addEventListener("click", () => {
+    if (input.value === currentCode) {
+      errorMsg.style.display = "none";
+      docContent.innerHTML = "✅ تم فتح " + currentDoc;
+      docContent.style.display = "block";
+    } else {
+      errorMsg.style.display = "block";
+      docContent.style.display = "none";
+    }
+  });
+
+  // اغلاق المودال
   closeBtn.onclick = () => modal.style.display = "none";
   window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
 </script>

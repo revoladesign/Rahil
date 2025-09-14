@@ -801,54 +801,115 @@
         </div>
 
         <!-- Documents Section -->
-        <div id="documents" class="content-section">
-            <h2 class="section-title">
-                <i class="fas fa-file-alt"></i>
-                المستندات الرسمية
-                <span style="background: rgba(255, 193, 7, 0.2); color: #ffc107; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;">للعرض فقط</span>
-            </h2>
-            
-            <div class="document-grid">
-                <div class="document-card">
-                    <div class="document-preview">
-                        <div class="document-icon">
-                            <i class="fas fa-id-card"></i>
-                        </div>
-                    </div>
-                    <div class="document-title">بطاقة الطالب الجامعية</div>
-                    <div class="document-subtitle">صالحة حتى: يونيو 2025</div>
-                    <button class="document-btn">
-                        <i class="fas fa-eye"></i> عرض البطاقة
-                    </button>
-                </div>
-                
-                <div class="document-card">
-                    <div class="document-preview">
-                        <div class="document-icon">
-                            <i class="fas fa-certificate"></i>
-                        </div>
-                    </div>
-                    <div class="document-title">شهادة التسجيل</div>
-                    <div class="document-subtitle">العام الأكاديمي: 2023-2024</div>
-                    <button class="document-btn">
-                        <i class="fas fa-eye"></i> عرض الشهادة
-                    </button>
-                </div>
-                
-                <div class="document-card">
-                    <div class="document-preview">
-                        <div class="document-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <div class="document-title">كشوف النقاط</div>
-                    <div class="document-subtitle">جميع الفصول الدراسية</div>
-                    <button class="document-btn">
-                        <i class="fas fa-eye"></i> عرض الكشوف
-                    </button>
+<div id="documents" class="content-section">
+    <h2 class="section-title">
+        <i class="fas fa-file-alt"></i>
+        المستندات الرسمية
+        <span style="background: rgba(255, 193, 7, 0.2); color: #ffc107; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;">للعرض فقط</span>
+    </h2>
+    
+    <div class="document-grid">
+        <div class="document-card">
+            <div class="document-preview">
+                <div class="document-icon">
+                    <i class="fas fa-id-card"></i>
                 </div>
             </div>
+            <div class="document-title">بطاقة الطالب الجامعية</div>
+            <div class="document-subtitle">صالحة حتى: يونيو 2025</div>
+            <button class="document-btn" data-code="2004">
+                <i class="fas fa-eye"></i> عرض البطاقة
+            </button>
         </div>
+        
+        <div class="document-card">
+            <div class="document-preview">
+                <div class="document-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+            </div>
+            <div class="document-title">شهادة التسجيل</div>
+            <div class="document-subtitle">العام الأكاديمي: 2023-2024</div>
+            <button class="document-btn" data-code="2005">
+                <i class="fas fa-eye"></i> عرض الشهادة
+            </button>
+        </div>
+        
+        <div class="document-card">
+            <div class="document-preview">
+                <div class="document-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+            </div>
+            <div class="document-title">كشوف النقاط</div>
+            <div class="document-subtitle">جميع الفصول الدراسية</div>
+            <button class="document-btn" data-code="2006">
+                <i class="fas fa-eye"></i> عرض الكشوف
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal لعرض الكود -->
+<div id="codeModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <pre><code class="language-js" id="documentCode">// هنا رح يظهر الكود</code></pre>
+    </div>
+</div>
+
+<!-- CSS -->
+<style>
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  padding: 40px;
+}
+
+.modal-content {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: auto;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+}
+
+.close-btn {
+  float: left;
+  font-size: 24px;
+  cursor: pointer;
+  color: #f44336;
+}
+</style>
+
+<!-- Prism.js -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<!-- JavaScript -->
+<script>
+  const modal = document.getElementById("codeModal");
+  const codeBlock = document.getElementById("documentCode");
+  const closeBtn = document.querySelector(".close-btn");
+
+  document.querySelectorAll(".document-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      let code = btn.getAttribute("data-code") || "0000";
+      codeBlock.textContent = `// الكود الخاص بالمستند\nCODE: ${code}`;
+      Prism.highlightElement(codeBlock);
+      modal.style.display = "block";
+    });
+  });
+
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
+</script>
 
         <!-- Skills Section -->
         <div id="skills" class="content-section">
